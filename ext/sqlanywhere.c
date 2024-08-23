@@ -29,7 +29,7 @@
 
 #define IS_SACAPI_V2(api) ((api.sqlany_init_ex) != NULL)
 
-const char* VERSION = "0.2.0";
+const char* VERSION = "0.2.1";
 
 typedef struct imp_drh_st {
   SQLAnywhereInterface  api;
@@ -1749,6 +1749,7 @@ void Init_sqlanywhere()
   // Define interface classes under the SQLAnywhere module
   cSQLAnywhereInterface = rb_define_class_under( mSQLAnywhere, "SQLAnywhereInterface", rb_cObject);
   rb_define_alloc_func(cSQLAnywhereInterface, static_SQLAnywhereInterface_alloc);
+  rb_undef_alloc_func(cSQLAnywhereInterface);
 
   // Define all of the DBCAPI functions as methods under an interface instance
   rb_define_method(cSQLAnywhereInterface, "sqlany_init", static_SQLAnywhereInterface_sqlany_init, 0);
@@ -1784,10 +1785,15 @@ void Init_sqlanywhere()
 
   // Define classes for accessing structures under SQLAnywhere module
   cA_sqlany_connection = rb_define_class_under (mSQLAnywhere, "a_sqlany_connection", rb_cObject);
+  rb_undef_alloc_func(cA_sqlany_connection);
   cA_sqlany_data_value = rb_define_class_under (mSQLAnywhere, "a_sqlany_data_value", rb_cObject);
-  cA_sqlany_stmt = rb_define_class_under (mSQLAnywhere, "a_sqlany_stmt", rb_cObject);  
+  rb_undef_alloc_func(cA_sqlany_data_value);
+  cA_sqlany_stmt = rb_define_class_under (mSQLAnywhere, "a_sqlany_stmt", rb_cObject);
+  rb_undef_alloc_func(cA_sqlany_stmt);
   cA_sqlany_bind_param = rb_define_class_under (mSQLAnywhere, "a_sqlany_bind_param", rb_cObject);
+  rb_undef_alloc_func(cA_sqlany_bind_param);
   cA_sqlany_bind_param_info = rb_define_class_under (mSQLAnywhere, "a_sqlany_bind_param_info", rb_cObject);
+  rb_undef_alloc_func(cA_sqlany_bind_param_info);
 
 
   // Define methods for obtaining bind_parameter fields
